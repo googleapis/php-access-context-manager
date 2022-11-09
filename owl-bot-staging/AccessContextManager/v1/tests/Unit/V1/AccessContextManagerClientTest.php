@@ -22,18 +22,14 @@
 
 namespace Google\Identity\AccessContextManager\Tests\Unit\V1;
 
+use Google\Identity\AccessContextManager\V1\AccessContextManagerClient;
 use Google\ApiCore\ApiException;
-
 use Google\ApiCore\CredentialsWrapper;
 use Google\ApiCore\LongRunning\OperationsClient;
 use Google\ApiCore\Testing\GeneratedTest;
-
 use Google\ApiCore\Testing\MockTransport;
 use Google\Cloud\Iam\V1\Policy;
 use Google\Cloud\Iam\V1\TestIamPermissionsResponse;
-
-use Google\Identity\AccessContextManager\V1\AccessContextManagerClient;
-
 use Google\Identity\AccessContextManager\V1\AccessLevel;
 use Google\Identity\AccessContextManager\V1\AccessPolicy;
 use Google\Identity\AccessContextManager\V1\CommitServicePerimetersResponse;
@@ -60,25 +56,19 @@ use stdClass;
  */
 class AccessContextManagerClientTest extends GeneratedTest
 {
-    /**
-     * @return TransportInterface
-     */
+    /** @return TransportInterface */
     private function createTransport($deserialize = null)
     {
         return new MockTransport($deserialize);
     }
 
-    /**
-     * @return CredentialsWrapper
-     */
+    /** @return CredentialsWrapper */
     private function createCredentials()
     {
         return $this->getMockBuilder(CredentialsWrapper::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return AccessContextManagerClient
-     */
+    /** @return AccessContextManagerClient */
     private function createClient(array $options = [])
     {
         $options += [
@@ -87,9 +77,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         return new AccessContextManagerClient($options);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function commitServicePerimetersTest()
     {
         $operationsTransport = $this->createTransport();
@@ -151,9 +139,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function commitServicePerimetersExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -208,9 +194,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createAccessLevelTest()
     {
         $operationsTransport = $this->createTransport();
@@ -281,9 +265,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createAccessLevelExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -339,9 +321,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createAccessPolicyTest()
     {
         $operationsTransport = $this->createTransport();
@@ -407,9 +387,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createAccessPolicyExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -462,9 +440,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createGcpUserAccessBindingTest()
     {
         $operationsTransport = $this->createTransport();
@@ -539,9 +515,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createGcpUserAccessBindingExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -603,9 +577,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createServicePerimeterTest()
     {
         $operationsTransport = $this->createTransport();
@@ -678,9 +650,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function createServicePerimeterExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -736,9 +706,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteAccessLevelTest()
     {
         $operationsTransport = $this->createTransport();
@@ -800,9 +768,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteAccessLevelExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -857,9 +823,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteAccessPolicyTest()
     {
         $operationsTransport = $this->createTransport();
@@ -921,9 +885,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteAccessPolicyExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -978,9 +940,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteGcpUserAccessBindingTest()
     {
         $operationsTransport = $this->createTransport();
@@ -1042,9 +1002,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteGcpUserAccessBindingExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -1099,9 +1057,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteServicePerimeterTest()
     {
         $operationsTransport = $this->createTransport();
@@ -1163,9 +1119,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function deleteServicePerimeterExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -1220,9 +1174,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getAccessLevelTest()
     {
         $transport = $this->createTransport();
@@ -1253,9 +1205,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getAccessLevelExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1288,9 +1238,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getAccessPolicyTest()
     {
         $transport = $this->createTransport();
@@ -1323,9 +1271,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getAccessPolicyExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1358,9 +1304,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getGcpUserAccessBindingTest()
     {
         $transport = $this->createTransport();
@@ -1389,9 +1333,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getGcpUserAccessBindingExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1424,9 +1366,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getIamPolicyTest()
     {
         $transport = $this->createTransport();
@@ -1455,9 +1395,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getIamPolicyExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1490,9 +1428,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getServicePerimeterTest()
     {
         $transport = $this->createTransport();
@@ -1525,9 +1461,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function getServicePerimeterExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1560,9 +1494,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listAccessLevelsTest()
     {
         $transport = $this->createTransport();
@@ -1597,9 +1529,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listAccessLevelsExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1632,9 +1562,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listAccessPoliciesTest()
     {
         $transport = $this->createTransport();
@@ -1669,9 +1597,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listAccessPoliciesExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1704,9 +1630,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listGcpUserAccessBindingsTest()
     {
         $transport = $this->createTransport();
@@ -1741,9 +1665,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listGcpUserAccessBindingsExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1776,9 +1698,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listServicePerimetersTest()
     {
         $transport = $this->createTransport();
@@ -1813,9 +1733,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function listServicePerimetersExceptionTest()
     {
         $transport = $this->createTransport();
@@ -1848,9 +1766,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function replaceAccessLevelsTest()
     {
         $operationsTransport = $this->createTransport();
@@ -1915,9 +1831,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function replaceAccessLevelsExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -1973,9 +1887,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function replaceServicePerimetersTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2040,9 +1952,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function replaceServicePerimetersExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2098,9 +2008,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function setIamPolicyTest()
     {
         $transport = $this->createTransport();
@@ -2132,9 +2040,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function setIamPolicyExceptionTest()
     {
         $transport = $this->createTransport();
@@ -2168,9 +2074,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function testIamPermissionsTest()
     {
         $transport = $this->createTransport();
@@ -2198,9 +2102,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function testIamPermissionsExceptionTest()
     {
         $transport = $this->createTransport();
@@ -2234,9 +2136,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($transport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateAccessLevelTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2307,9 +2207,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateAccessLevelExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2365,9 +2263,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateAccessPolicyTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2440,9 +2336,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateAccessPolicyExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2498,9 +2392,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateGcpUserAccessBindingTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2575,9 +2467,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateGcpUserAccessBindingExceptionTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2639,9 +2529,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateServicePerimeterTest()
     {
         $operationsTransport = $this->createTransport();
@@ -2714,9 +2602,7 @@ class AccessContextManagerClientTest extends GeneratedTest
         $this->assertTrue($operationsTransport->isExhausted());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function updateServicePerimeterExceptionTest()
     {
         $operationsTransport = $this->createTransport();
