@@ -22,7 +22,6 @@
 
 namespace Google\Identity\AccessContextManager\Tests\Unit\V1;
 
-use Google\Identity\AccessContextManager\V1\AccessContextManagerClient;
 use Google\ApiCore\ApiException;
 use Google\ApiCore\CredentialsWrapper;
 use Google\ApiCore\LongRunning\OperationsClient;
@@ -30,6 +29,7 @@ use Google\ApiCore\Testing\GeneratedTest;
 use Google\ApiCore\Testing\MockTransport;
 use Google\Cloud\Iam\V1\Policy;
 use Google\Cloud\Iam\V1\TestIamPermissionsResponse;
+use Google\Identity\AccessContextManager\V1\AccessContextManagerClient;
 use Google\Identity\AccessContextManager\V1\AccessLevel;
 use Google\Identity\AccessContextManager\V1\AccessPolicy;
 use Google\Identity\AccessContextManager\V1\CommitServicePerimetersResponse;
