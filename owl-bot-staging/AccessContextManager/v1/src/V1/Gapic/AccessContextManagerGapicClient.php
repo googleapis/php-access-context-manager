@@ -97,7 +97,8 @@ use Google\Protobuf\Timestamp;
  * ```
  * $accessContextManagerClient = new AccessContextManagerClient();
  * try {
- *     $operationResponse = $accessContextManagerClient->commitServicePerimeters();
+ *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+ *     $operationResponse = $accessContextManagerClient->commitServicePerimeters($formattedParent);
  *     $operationResponse->pollUntilComplete();
  *     if ($operationResponse->operationSucceeded()) {
  *         $result = $operationResponse->getResult();
@@ -108,7 +109,7 @@ use Google\Protobuf\Timestamp;
  *     }
  *     // Alternatively:
  *     // start the operation, keep the operation name, and resume later
- *     $operationResponse = $accessContextManagerClient->commitServicePerimeters();
+ *     $operationResponse = $accessContextManagerClient->commitServicePerimeters($formattedParent);
  *     $operationName = $operationResponse->getName();
  *     // ... do other work
  *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'commitServicePerimeters');
@@ -493,7 +494,8 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->commitServicePerimeters();
+     *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+     *     $operationResponse = $accessContextManagerClient->commitServicePerimeters($formattedParent);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -504,7 +506,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->commitServicePerimeters();
+     *     $operationResponse = $accessContextManagerClient->commitServicePerimeters($formattedParent);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'commitServicePerimeters');
@@ -524,17 +526,16 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $parent       Required. Resource name for the parent [Access Policy]
+     *                             [google.identity.accesscontextmanager.v1.AccessPolicy] which owns all
+     *                             [Service Perimeters]
+     *                             [google.identity.accesscontextmanager.v1.ServicePerimeter] in scope for
+     *                             the commit operation.
+     *
+     *                             Format: `accessPolicies/{policy_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the parent [Access Policy]
-     *           [google.identity.accesscontextmanager.v1.AccessPolicy] which owns all
-     *           [Service Perimeters]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter] in scope for
-     *           the commit operation.
-     *
-     *           Format: `accessPolicies/{policy_id}`
      *     @type string $etag
      *           Optional. The etag for the version of the [Access Policy]
      *           [google.identity.accesscontextmanager.v1.AccessPolicy] that this
@@ -553,15 +554,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function commitServicePerimeters(array $optionalArgs = [])
+    public function commitServicePerimeters($parent, array $optionalArgs = [])
     {
         $request = new CommitServicePerimetersRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
+        $request->setParent($parent);
+        $requestParamHeaders['parent'] = $parent;
         if (isset($optionalArgs['etag'])) {
             $request->setEtag($optionalArgs['etag']);
         }
@@ -584,7 +582,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->createAccessLevel();
+     *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+     *     $accessLevel = new AccessLevel();
+     *     $operationResponse = $accessContextManagerClient->createAccessLevel($formattedParent, $accessLevel);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -595,7 +595,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->createAccessLevel();
+     *     $operationResponse = $accessContextManagerClient->createAccessLevel($formattedParent, $accessLevel);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'createAccessLevel');
@@ -615,20 +615,18 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string      $parent       Required. Resource name for the access policy which owns this [Access
+     *                                  Level] [google.identity.accesscontextmanager.v1.AccessLevel].
+     *
+     *                                  Format: `accessPolicies/{policy_id}`
+     * @param AccessLevel $accessLevel  Required. The [Access Level]
+     *                                  [google.identity.accesscontextmanager.v1.AccessLevel] to create.
+     *                                  Syntactic correctness of the [Access Level]
+     *                                  [google.identity.accesscontextmanager.v1.AccessLevel] is a
+     *                                  precondition for creation.
+     * @param array       $optionalArgs {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the access policy which owns this [Access
-     *           Level] [google.identity.accesscontextmanager.v1.AccessLevel].
-     *
-     *           Format: `accessPolicies/{policy_id}`
-     *     @type AccessLevel $accessLevel
-     *           Required. The [Access Level]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel] to create.
-     *           Syntactic correctness of the [Access Level]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel] is a
-     *           precondition for creation.
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -639,19 +637,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function createAccessLevel(array $optionalArgs = [])
+    public function createAccessLevel($parent, $accessLevel, array $optionalArgs = [])
     {
         $request = new CreateAccessLevelRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
-        if (isset($optionalArgs['accessLevel'])) {
-            $request->setAccessLevel($optionalArgs['accessLevel']);
-        }
-
+        $request->setParent($parent);
+        $request->setAccessLevel($accessLevel);
+        $requestParamHeaders['parent'] = $parent;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('CreateAccessLevel', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -795,7 +787,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->createGcpUserAccessBinding();
+     *     $formattedParent = $accessContextManagerClient->organizationName('[ORGANIZATION]');
+     *     $gcpUserAccessBinding = new GcpUserAccessBinding();
+     *     $operationResponse = $accessContextManagerClient->createGcpUserAccessBinding($formattedParent, $gcpUserAccessBinding);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -806,7 +800,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->createGcpUserAccessBinding();
+     *     $operationResponse = $accessContextManagerClient->createGcpUserAccessBinding($formattedParent, $gcpUserAccessBinding);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'createGcpUserAccessBinding');
@@ -826,14 +820,12 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string               $parent               Required. Example: "organizations/256"
+     * @param GcpUserAccessBinding $gcpUserAccessBinding Required. [GcpUserAccessBinding]
+     *                                                   [google.identity.accesscontextmanager.v1.GcpUserAccessBinding]
+     * @param array                $optionalArgs         {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Example: "organizations/256"
-     *     @type GcpUserAccessBinding $gcpUserAccessBinding
-     *           Required. [GcpUserAccessBinding]
-     *           [google.identity.accesscontextmanager.v1.GcpUserAccessBinding]
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -844,19 +836,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function createGcpUserAccessBinding(array $optionalArgs = [])
+    public function createGcpUserAccessBinding($parent, $gcpUserAccessBinding, array $optionalArgs = [])
     {
         $request = new CreateGcpUserAccessBindingRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
-        if (isset($optionalArgs['gcpUserAccessBinding'])) {
-            $request->setGcpUserAccessBinding($optionalArgs['gcpUserAccessBinding']);
-        }
-
+        $request->setParent($parent);
+        $request->setGcpUserAccessBinding($gcpUserAccessBinding);
+        $requestParamHeaders['parent'] = $parent;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('CreateGcpUserAccessBinding', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -876,7 +862,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->createServicePerimeter();
+     *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+     *     $servicePerimeter = new ServicePerimeter();
+     *     $operationResponse = $accessContextManagerClient->createServicePerimeter($formattedParent, $servicePerimeter);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -887,7 +875,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->createServicePerimeter();
+     *     $operationResponse = $accessContextManagerClient->createServicePerimeter($formattedParent, $servicePerimeter);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'createServicePerimeter');
@@ -907,20 +895,18 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string           $parent           Required. Resource name for the access policy which owns this [Service
+     *                                           Perimeter] [google.identity.accesscontextmanager.v1.ServicePerimeter].
+     *
+     *                                           Format: `accessPolicies/{policy_id}`
+     * @param ServicePerimeter $servicePerimeter Required. The [Service Perimeter]
+     *                                           [google.identity.accesscontextmanager.v1.ServicePerimeter] to create.
+     *                                           Syntactic correctness of the [Service Perimeter]
+     *                                           [google.identity.accesscontextmanager.v1.ServicePerimeter] is a
+     *                                           precondition for creation.
+     * @param array            $optionalArgs     {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the access policy which owns this [Service
-     *           Perimeter] [google.identity.accesscontextmanager.v1.ServicePerimeter].
-     *
-     *           Format: `accessPolicies/{policy_id}`
-     *     @type ServicePerimeter $servicePerimeter
-     *           Required. The [Service Perimeter]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter] to create.
-     *           Syntactic correctness of the [Service Perimeter]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter] is a
-     *           precondition for creation.
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -931,19 +917,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function createServicePerimeter(array $optionalArgs = [])
+    public function createServicePerimeter($parent, $servicePerimeter, array $optionalArgs = [])
     {
         $request = new CreateServicePerimeterRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
-        if (isset($optionalArgs['servicePerimeter'])) {
-            $request->setServicePerimeter($optionalArgs['servicePerimeter']);
-        }
-
+        $request->setParent($parent);
+        $request->setServicePerimeter($servicePerimeter);
+        $requestParamHeaders['parent'] = $parent;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('CreateServicePerimeter', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -961,7 +941,8 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->deleteAccessLevel();
+     *     $formattedName = $accessContextManagerClient->accessLevelName('[ACCESS_POLICY]', '[ACCESS_LEVEL]');
+     *     $operationResponse = $accessContextManagerClient->deleteAccessLevel($formattedName);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         // operation succeeded and returns no value
@@ -971,7 +952,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->deleteAccessLevel();
+     *     $operationResponse = $accessContextManagerClient->deleteAccessLevel($formattedName);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'deleteAccessLevel');
@@ -990,15 +971,14 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Resource name for the [Access Level]
+     *                             [google.identity.accesscontextmanager.v1.AccessLevel].
+     *
+     *                             Format:
+     *                             `accessPolicies/{policy_id}/accessLevels/{access_level_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Resource name for the [Access Level]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel].
-     *
-     *           Format:
-     *           `accessPolicies/{policy_id}/accessLevels/{access_level_id}`
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -1009,15 +989,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function deleteAccessLevel(array $optionalArgs = [])
+    public function deleteAccessLevel($name, array $optionalArgs = [])
     {
         $request = new DeleteAccessLevelRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('DeleteAccessLevel', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -1034,7 +1011,8 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->deleteAccessPolicy();
+     *     $formattedName = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+     *     $operationResponse = $accessContextManagerClient->deleteAccessPolicy($formattedName);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         // operation succeeded and returns no value
@@ -1044,7 +1022,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->deleteAccessPolicy();
+     *     $operationResponse = $accessContextManagerClient->deleteAccessPolicy($formattedName);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'deleteAccessPolicy');
@@ -1063,13 +1041,12 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Resource name for the access policy to delete.
+     *
+     *                             Format `accessPolicies/{policy_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Resource name for the access policy to delete.
-     *
-     *           Format `accessPolicies/{policy_id}`
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -1080,15 +1057,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function deleteAccessPolicy(array $optionalArgs = [])
+    public function deleteAccessPolicy($name, array $optionalArgs = [])
     {
         $request = new DeleteAccessPolicyRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('DeleteAccessPolicy', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -1105,7 +1079,8 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->deleteGcpUserAccessBinding();
+     *     $formattedName = $accessContextManagerClient->gcpUserAccessBindingName('[ORGANIZATION]', '[GCP_USER_ACCESS_BINDING]');
+     *     $operationResponse = $accessContextManagerClient->deleteGcpUserAccessBinding($formattedName);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         // operation succeeded and returns no value
@@ -1115,7 +1090,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->deleteGcpUserAccessBinding();
+     *     $operationResponse = $accessContextManagerClient->deleteGcpUserAccessBinding($formattedName);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'deleteGcpUserAccessBinding');
@@ -1134,11 +1109,10 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -1149,15 +1123,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function deleteGcpUserAccessBinding(array $optionalArgs = [])
+    public function deleteGcpUserAccessBinding($name, array $optionalArgs = [])
     {
         $request = new DeleteGcpUserAccessBindingRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('DeleteGcpUserAccessBinding', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -1175,7 +1146,8 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->deleteServicePerimeter();
+     *     $formattedName = $accessContextManagerClient->servicePerimeterName('[ACCESS_POLICY]', '[SERVICE_PERIMETER]');
+     *     $operationResponse = $accessContextManagerClient->deleteServicePerimeter($formattedName);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         // operation succeeded and returns no value
@@ -1185,7 +1157,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->deleteServicePerimeter();
+     *     $operationResponse = $accessContextManagerClient->deleteServicePerimeter($formattedName);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'deleteServicePerimeter');
@@ -1204,15 +1176,14 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Resource name for the [Service Perimeter]
+     *                             [google.identity.accesscontextmanager.v1.ServicePerimeter].
+     *
+     *                             Format:
+     *                             `accessPolicies/{policy_id}/servicePerimeters/{service_perimeter_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Resource name for the [Service Perimeter]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter].
-     *
-     *           Format:
-     *           `accessPolicies/{policy_id}/servicePerimeters/{service_perimeter_id}`
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -1223,15 +1194,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function deleteServicePerimeter(array $optionalArgs = [])
+    public function deleteServicePerimeter($name, array $optionalArgs = [])
     {
         $request = new DeleteServicePerimeterRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('DeleteServicePerimeter', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -1246,21 +1214,21 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $response = $accessContextManagerClient->getAccessLevel();
+     *     $formattedName = $accessContextManagerClient->accessLevelName('[ACCESS_POLICY]', '[ACCESS_LEVEL]');
+     *     $response = $accessContextManagerClient->getAccessLevel($formattedName);
      * } finally {
      *     $accessContextManagerClient->close();
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Resource name for the [Access Level]
+     *                             [google.identity.accesscontextmanager.v1.AccessLevel].
+     *
+     *                             Format:
+     *                             `accessPolicies/{policy_id}/accessLevels/{access_level_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Resource name for the [Access Level]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel].
-     *
-     *           Format:
-     *           `accessPolicies/{policy_id}/accessLevels/{access_level_id}`
      *     @type int $accessLevelFormat
      *           Whether to return `BasicLevels` in the Cloud Common Expression
      *           Language rather than as `BasicLevels`. Defaults to AS_DEFINED, where
@@ -1281,15 +1249,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function getAccessLevel(array $optionalArgs = [])
+    public function getAccessLevel($name, array $optionalArgs = [])
     {
         $request = new GetAccessLevelRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         if (isset($optionalArgs['accessLevelFormat'])) {
             $request->setAccessLevelFormat($optionalArgs['accessLevelFormat']);
         }
@@ -1307,19 +1272,19 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $response = $accessContextManagerClient->getAccessPolicy();
+     *     $formattedName = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+     *     $response = $accessContextManagerClient->getAccessPolicy($formattedName);
      * } finally {
      *     $accessContextManagerClient->close();
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Resource name for the access policy to get.
+     *
+     *                             Format `accessPolicies/{policy_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Resource name for the access policy to get.
-     *
-     *           Format `accessPolicies/{policy_id}`
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -1330,15 +1295,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function getAccessPolicy(array $optionalArgs = [])
+    public function getAccessPolicy($name, array $optionalArgs = [])
     {
         $request = new GetAccessPolicyRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startCall('GetAccessPolicy', AccessPolicy::class, $optionalArgs, $request)->wait();
@@ -1353,17 +1315,17 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $response = $accessContextManagerClient->getGcpUserAccessBinding();
+     *     $formattedName = $accessContextManagerClient->gcpUserAccessBindingName('[ORGANIZATION]', '[GCP_USER_ACCESS_BINDING]');
+     *     $response = $accessContextManagerClient->getGcpUserAccessBinding($formattedName);
      * } finally {
      *     $accessContextManagerClient->close();
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -1374,15 +1336,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function getGcpUserAccessBinding(array $optionalArgs = [])
+    public function getGcpUserAccessBinding($name, array $optionalArgs = [])
     {
         $request = new GetGcpUserAccessBindingRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startCall('GetGcpUserAccessBinding', GcpUserAccessBinding::class, $optionalArgs, $request)->wait();
@@ -1445,21 +1404,21 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $response = $accessContextManagerClient->getServicePerimeter();
+     *     $formattedName = $accessContextManagerClient->servicePerimeterName('[ACCESS_POLICY]', '[SERVICE_PERIMETER]');
+     *     $response = $accessContextManagerClient->getServicePerimeter($formattedName);
      * } finally {
      *     $accessContextManagerClient->close();
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $name         Required. Resource name for the [Service Perimeter]
+     *                             [google.identity.accesscontextmanager.v1.ServicePerimeter].
+     *
+     *                             Format:
+     *                             `accessPolicies/{policy_id}/servicePerimeters/{service_perimeters_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $name
-     *           Required. Resource name for the [Service Perimeter]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter].
-     *
-     *           Format:
-     *           `accessPolicies/{policy_id}/servicePerimeters/{service_perimeters_id}`
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -1470,15 +1429,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function getServicePerimeter(array $optionalArgs = [])
+    public function getServicePerimeter($name, array $optionalArgs = [])
     {
         $request = new GetServicePerimeterRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['name'])) {
-            $request->setName($optionalArgs['name']);
-            $requestParamHeaders['name'] = $optionalArgs['name'];
-        }
-
+        $request->setName($name);
+        $requestParamHeaders['name'] = $name;
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startCall('GetServicePerimeter', ServicePerimeter::class, $optionalArgs, $request)->wait();
@@ -1493,8 +1449,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
+     *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
      *     // Iterate over pages of elements
-     *     $pagedResponse = $accessContextManagerClient->listAccessLevels();
+     *     $pagedResponse = $accessContextManagerClient->listAccessLevels($formattedParent);
      *     foreach ($pagedResponse->iteratePages() as $page) {
      *         foreach ($page as $element) {
      *             // doSomethingWith($element);
@@ -1502,7 +1459,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // Iterate through all elements
-     *     $pagedResponse = $accessContextManagerClient->listAccessLevels();
+     *     $pagedResponse = $accessContextManagerClient->listAccessLevels($formattedParent);
      *     foreach ($pagedResponse->iterateAllElements() as $element) {
      *         // doSomethingWith($element);
      *     }
@@ -1511,15 +1468,14 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $parent       Required. Resource name for the access policy to list [Access Levels]
+     *                             [google.identity.accesscontextmanager.v1.AccessLevel] from.
+     *
+     *                             Format:
+     *                             `accessPolicies/{policy_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the access policy to list [Access Levels]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel] from.
-     *
-     *           Format:
-     *           `accessPolicies/{policy_id}`
      *     @type int $pageSize
      *           The maximum number of resources contained in the underlying API
      *           response. The API may return fewer values in a page, even if
@@ -1544,15 +1500,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function listAccessLevels(array $optionalArgs = [])
+    public function listAccessLevels($parent, array $optionalArgs = [])
     {
         $request = new ListAccessLevelsRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
+        $request->setParent($parent);
+        $requestParamHeaders['parent'] = $parent;
         if (isset($optionalArgs['pageSize'])) {
             $request->setPageSize($optionalArgs['pageSize']);
         }
@@ -1579,8 +1532,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
+     *     $formattedParent = $accessContextManagerClient->organizationName('[ORGANIZATION]');
      *     // Iterate over pages of elements
-     *     $pagedResponse = $accessContextManagerClient->listAccessPolicies();
+     *     $pagedResponse = $accessContextManagerClient->listAccessPolicies($formattedParent);
      *     foreach ($pagedResponse->iteratePages() as $page) {
      *         foreach ($page as $element) {
      *             // doSomethingWith($element);
@@ -1588,7 +1542,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // Iterate through all elements
-     *     $pagedResponse = $accessContextManagerClient->listAccessPolicies();
+     *     $pagedResponse = $accessContextManagerClient->listAccessPolicies($formattedParent);
      *     foreach ($pagedResponse->iterateAllElements() as $element) {
      *         // doSomethingWith($element);
      *     }
@@ -1597,15 +1551,14 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $parent       Required. Resource name for the container to list AccessPolicy instances
+     *                             from.
+     *
+     *                             Format:
+     *                             `organizations/{org_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the container to list AccessPolicy instances
-     *           from.
-     *
-     *           Format:
-     *           `organizations/{org_id}`
      *     @type int $pageSize
      *           The maximum number of resources contained in the underlying API
      *           response. The API may return fewer values in a page, even if
@@ -1625,13 +1578,10 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function listAccessPolicies(array $optionalArgs = [])
+    public function listAccessPolicies($parent, array $optionalArgs = [])
     {
         $request = new ListAccessPoliciesRequest();
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-        }
-
+        $request->setParent($parent);
         if (isset($optionalArgs['pageSize'])) {
             $request->setPageSize($optionalArgs['pageSize']);
         }
@@ -1652,8 +1602,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
+     *     $formattedParent = $accessContextManagerClient->organizationName('[ORGANIZATION]');
      *     // Iterate over pages of elements
-     *     $pagedResponse = $accessContextManagerClient->listGcpUserAccessBindings();
+     *     $pagedResponse = $accessContextManagerClient->listGcpUserAccessBindings($formattedParent);
      *     foreach ($pagedResponse->iteratePages() as $page) {
      *         foreach ($page as $element) {
      *             // doSomethingWith($element);
@@ -1661,7 +1612,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // Iterate through all elements
-     *     $pagedResponse = $accessContextManagerClient->listGcpUserAccessBindings();
+     *     $pagedResponse = $accessContextManagerClient->listGcpUserAccessBindings($formattedParent);
      *     foreach ($pagedResponse->iterateAllElements() as $element) {
      *         // doSomethingWith($element);
      *     }
@@ -1670,11 +1621,10 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $parent       Required. Example: "organizations/256"
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Example: "organizations/256"
      *     @type int $pageSize
      *           The maximum number of resources contained in the underlying API
      *           response. The API may return fewer values in a page, even if
@@ -1694,15 +1644,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function listGcpUserAccessBindings(array $optionalArgs = [])
+    public function listGcpUserAccessBindings($parent, array $optionalArgs = [])
     {
         $request = new ListGcpUserAccessBindingsRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
+        $request->setParent($parent);
+        $requestParamHeaders['parent'] = $parent;
         if (isset($optionalArgs['pageSize'])) {
             $request->setPageSize($optionalArgs['pageSize']);
         }
@@ -1725,8 +1672,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
+     *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
      *     // Iterate over pages of elements
-     *     $pagedResponse = $accessContextManagerClient->listServicePerimeters();
+     *     $pagedResponse = $accessContextManagerClient->listServicePerimeters($formattedParent);
      *     foreach ($pagedResponse->iteratePages() as $page) {
      *         foreach ($page as $element) {
      *             // doSomethingWith($element);
@@ -1734,7 +1682,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // Iterate through all elements
-     *     $pagedResponse = $accessContextManagerClient->listServicePerimeters();
+     *     $pagedResponse = $accessContextManagerClient->listServicePerimeters($formattedParent);
      *     foreach ($pagedResponse->iterateAllElements() as $element) {
      *         // doSomethingWith($element);
      *     }
@@ -1743,15 +1691,14 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string $parent       Required. Resource name for the access policy to list [Service Perimeters]
+     *                             [google.identity.accesscontextmanager.v1.ServicePerimeter] from.
+     *
+     *                             Format:
+     *                             `accessPolicies/{policy_id}`
+     * @param array  $optionalArgs {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the access policy to list [Service Perimeters]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter] from.
-     *
-     *           Format:
-     *           `accessPolicies/{policy_id}`
      *     @type int $pageSize
      *           The maximum number of resources contained in the underlying API
      *           response. The API may return fewer values in a page, even if
@@ -1771,15 +1718,12 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function listServicePerimeters(array $optionalArgs = [])
+    public function listServicePerimeters($parent, array $optionalArgs = [])
     {
         $request = new ListServicePerimetersRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
+        $request->setParent($parent);
+        $requestParamHeaders['parent'] = $parent;
         if (isset($optionalArgs['pageSize'])) {
             $request->setPageSize($optionalArgs['pageSize']);
         }
@@ -1816,7 +1760,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->replaceAccessLevels();
+     *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+     *     $accessLevels = [];
+     *     $operationResponse = $accessContextManagerClient->replaceAccessLevels($formattedParent, $accessLevels);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -1827,7 +1773,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->replaceAccessLevels();
+     *     $operationResponse = $accessContextManagerClient->replaceAccessLevels($formattedParent, $accessLevels);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'replaceAccessLevels');
@@ -1847,22 +1793,20 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string        $parent       Required. Resource name for the access policy which owns these
+     *                                    [Access Levels]
+     *                                    [google.identity.accesscontextmanager.v1.AccessLevel].
+     *
+     *                                    Format: `accessPolicies/{policy_id}`
+     * @param AccessLevel[] $accessLevels Required. The desired [Access Levels]
+     *                                    [google.identity.accesscontextmanager.v1.AccessLevel] that should
+     *                                    replace all existing [Access Levels]
+     *                                    [google.identity.accesscontextmanager.v1.AccessLevel] in the
+     *                                    [Access Policy]
+     *                                    [google.identity.accesscontextmanager.v1.AccessPolicy].
+     * @param array         $optionalArgs {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the access policy which owns these
-     *           [Access Levels]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel].
-     *
-     *           Format: `accessPolicies/{policy_id}`
-     *     @type AccessLevel[] $accessLevels
-     *           Required. The desired [Access Levels]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel] that should
-     *           replace all existing [Access Levels]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel] in the
-     *           [Access Policy]
-     *           [google.identity.accesscontextmanager.v1.AccessPolicy].
      *     @type string $etag
      *           Optional. The etag for the version of the [Access Policy]
      *           [google.identity.accesscontextmanager.v1.AccessPolicy] that this
@@ -1881,19 +1825,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function replaceAccessLevels(array $optionalArgs = [])
+    public function replaceAccessLevels($parent, $accessLevels, array $optionalArgs = [])
     {
         $request = new ReplaceAccessLevelsRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
-        if (isset($optionalArgs['accessLevels'])) {
-            $request->setAccessLevels($optionalArgs['accessLevels']);
-        }
-
+        $request->setParent($parent);
+        $request->setAccessLevels($accessLevels);
+        $requestParamHeaders['parent'] = $parent;
         if (isset($optionalArgs['etag'])) {
             $request->setEtag($optionalArgs['etag']);
         }
@@ -1922,7 +1860,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->replaceServicePerimeters();
+     *     $formattedParent = $accessContextManagerClient->accessPolicyName('[ACCESS_POLICY]');
+     *     $servicePerimeters = [];
+     *     $operationResponse = $accessContextManagerClient->replaceServicePerimeters($formattedParent, $servicePerimeters);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -1933,7 +1873,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->replaceServicePerimeters();
+     *     $operationResponse = $accessContextManagerClient->replaceServicePerimeters($formattedParent, $servicePerimeters);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'replaceServicePerimeters');
@@ -1953,22 +1893,20 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param string             $parent            Required. Resource name for the access policy which owns these
+     *                                              [Service Perimeters]
+     *                                              [google.identity.accesscontextmanager.v1.ServicePerimeter].
+     *
+     *                                              Format: `accessPolicies/{policy_id}`
+     * @param ServicePerimeter[] $servicePerimeters Required. The desired [Service Perimeters]
+     *                                              [google.identity.accesscontextmanager.v1.ServicePerimeter] that should
+     *                                              replace all existing [Service Perimeters]
+     *                                              [google.identity.accesscontextmanager.v1.ServicePerimeter] in the
+     *                                              [Access Policy]
+     *                                              [google.identity.accesscontextmanager.v1.AccessPolicy].
+     * @param array              $optionalArgs      {
      *     Optional.
      *
-     *     @type string $parent
-     *           Required. Resource name for the access policy which owns these
-     *           [Service Perimeters]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter].
-     *
-     *           Format: `accessPolicies/{policy_id}`
-     *     @type ServicePerimeter[] $servicePerimeters
-     *           Required. The desired [Service Perimeters]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter] that should
-     *           replace all existing [Service Perimeters]
-     *           [google.identity.accesscontextmanager.v1.ServicePerimeter] in the
-     *           [Access Policy]
-     *           [google.identity.accesscontextmanager.v1.AccessPolicy].
      *     @type string $etag
      *           Optional. The etag for the version of the [Access Policy]
      *           [google.identity.accesscontextmanager.v1.AccessPolicy] that this
@@ -1987,19 +1925,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function replaceServicePerimeters(array $optionalArgs = [])
+    public function replaceServicePerimeters($parent, $servicePerimeters, array $optionalArgs = [])
     {
         $request = new ReplaceServicePerimetersRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['parent'])) {
-            $request->setParent($optionalArgs['parent']);
-            $requestParamHeaders['parent'] = $optionalArgs['parent'];
-        }
-
-        if (isset($optionalArgs['servicePerimeters'])) {
-            $request->setServicePerimeters($optionalArgs['servicePerimeters']);
-        }
-
+        $request->setParent($parent);
+        $request->setServicePerimeters($servicePerimeters);
+        $requestParamHeaders['parent'] = $parent;
         if (isset($optionalArgs['etag'])) {
             $request->setEtag($optionalArgs['etag']);
         }
@@ -2135,7 +2067,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->updateAccessLevel();
+     *     $accessLevel = new AccessLevel();
+     *     $updateMask = new FieldMask();
+     *     $operationResponse = $accessContextManagerClient->updateAccessLevel($accessLevel, $updateMask);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -2146,7 +2080,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->updateAccessLevel();
+     *     $operationResponse = $accessContextManagerClient->updateAccessLevel($accessLevel, $updateMask);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'updateAccessLevel');
@@ -2166,17 +2100,15 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param AccessLevel $accessLevel  Required. The updated [Access Level]
+     *                                  [google.identity.accesscontextmanager.v1.AccessLevel]. Syntactic
+     *                                  correctness of the [Access Level]
+     *                                  [google.identity.accesscontextmanager.v1.AccessLevel] is a
+     *                                  precondition for creation.
+     * @param FieldMask   $updateMask   Required. Mask to control which fields get updated. Must be non-empty.
+     * @param array       $optionalArgs {
      *     Optional.
      *
-     *     @type AccessLevel $accessLevel
-     *           Required. The updated [Access Level]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel]. Syntactic
-     *           correctness of the [Access Level]
-     *           [google.identity.accesscontextmanager.v1.AccessLevel] is a
-     *           precondition for creation.
-     *     @type FieldMask $updateMask
-     *           Required. Mask to control which fields get updated. Must be non-empty.
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -2187,18 +2119,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function updateAccessLevel(array $optionalArgs = [])
+    public function updateAccessLevel($accessLevel, $updateMask, array $optionalArgs = [])
     {
         $request = new UpdateAccessLevelRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['accessLevel'])) {
-            $request->setAccessLevel($optionalArgs['accessLevel']);
-        }
-
-        if (isset($optionalArgs['updateMask'])) {
-            $request->setUpdateMask($optionalArgs['updateMask']);
-        }
-
+        $request->setAccessLevel($accessLevel);
+        $request->setUpdateMask($updateMask);
+        $requestParamHeaders['access_level.name'] = $accessLevel->getName();
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('UpdateAccessLevel', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -2216,7 +2143,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->updateAccessPolicy();
+     *     $policy = new AccessPolicy();
+     *     $updateMask = new FieldMask();
+     *     $operationResponse = $accessContextManagerClient->updateAccessPolicy($policy, $updateMask);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -2227,7 +2156,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->updateAccessPolicy();
+     *     $operationResponse = $accessContextManagerClient->updateAccessPolicy($policy, $updateMask);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'updateAccessPolicy');
@@ -2247,13 +2176,11 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param AccessPolicy $policy       Required. The updated AccessPolicy.
+     * @param FieldMask    $updateMask   Required. Mask to control which fields get updated. Must be non-empty.
+     * @param array        $optionalArgs {
      *     Optional.
      *
-     *     @type AccessPolicy $policy
-     *           Required. The updated AccessPolicy.
-     *     @type FieldMask $updateMask
-     *           Required. Mask to control which fields get updated. Must be non-empty.
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -2264,18 +2191,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function updateAccessPolicy(array $optionalArgs = [])
+    public function updateAccessPolicy($policy, $updateMask, array $optionalArgs = [])
     {
         $request = new UpdateAccessPolicyRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['policy'])) {
-            $request->setPolicy($optionalArgs['policy']);
-        }
-
-        if (isset($optionalArgs['updateMask'])) {
-            $request->setUpdateMask($optionalArgs['updateMask']);
-        }
-
+        $request->setPolicy($policy);
+        $request->setUpdateMask($updateMask);
+        $requestParamHeaders['policy.name'] = $policy->getName();
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('UpdateAccessPolicy', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -2292,7 +2214,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->updateGcpUserAccessBinding();
+     *     $gcpUserAccessBinding = new GcpUserAccessBinding();
+     *     $updateMask = new FieldMask();
+     *     $operationResponse = $accessContextManagerClient->updateGcpUserAccessBinding($gcpUserAccessBinding, $updateMask);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -2303,7 +2227,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->updateGcpUserAccessBinding();
+     *     $operationResponse = $accessContextManagerClient->updateGcpUserAccessBinding($gcpUserAccessBinding, $updateMask);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'updateGcpUserAccessBinding');
@@ -2323,19 +2247,17 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param GcpUserAccessBinding $gcpUserAccessBinding Required. [GcpUserAccessBinding]
+     *                                                   [google.identity.accesscontextmanager.v1.GcpUserAccessBinding]
+     * @param FieldMask            $updateMask           Required. Only the fields specified in this mask are updated. Because name and
+     *                                                   group_key cannot be changed, update_mask is required and must always be:
+     *
+     *                                                   update_mask {
+     *                                                   paths: "access_levels"
+     *                                                   }
+     * @param array                $optionalArgs         {
      *     Optional.
      *
-     *     @type GcpUserAccessBinding $gcpUserAccessBinding
-     *           Required. [GcpUserAccessBinding]
-     *           [google.identity.accesscontextmanager.v1.GcpUserAccessBinding]
-     *     @type FieldMask $updateMask
-     *           Required. Only the fields specified in this mask are updated. Because name and
-     *           group_key cannot be changed, update_mask is required and must always be:
-     *
-     *           update_mask {
-     *           paths: "access_levels"
-     *           }
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -2346,18 +2268,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function updateGcpUserAccessBinding(array $optionalArgs = [])
+    public function updateGcpUserAccessBinding($gcpUserAccessBinding, $updateMask, array $optionalArgs = [])
     {
         $request = new UpdateGcpUserAccessBindingRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['gcpUserAccessBinding'])) {
-            $request->setGcpUserAccessBinding($optionalArgs['gcpUserAccessBinding']);
-        }
-
-        if (isset($optionalArgs['updateMask'])) {
-            $request->setUpdateMask($optionalArgs['updateMask']);
-        }
-
+        $request->setGcpUserAccessBinding($gcpUserAccessBinding);
+        $request->setUpdateMask($updateMask);
+        $requestParamHeaders['gcp_user_access_binding.name'] = $gcpUserAccessBinding->getName();
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('UpdateGcpUserAccessBinding', $optionalArgs, $request, $this->getOperationsClient())->wait();
@@ -2377,7 +2294,9 @@ class AccessContextManagerGapicClient
      * ```
      * $accessContextManagerClient = new AccessContextManagerClient();
      * try {
-     *     $operationResponse = $accessContextManagerClient->updateServicePerimeter();
+     *     $servicePerimeter = new ServicePerimeter();
+     *     $updateMask = new FieldMask();
+     *     $operationResponse = $accessContextManagerClient->updateServicePerimeter($servicePerimeter, $updateMask);
      *     $operationResponse->pollUntilComplete();
      *     if ($operationResponse->operationSucceeded()) {
      *         $result = $operationResponse->getResult();
@@ -2388,7 +2307,7 @@ class AccessContextManagerGapicClient
      *     }
      *     // Alternatively:
      *     // start the operation, keep the operation name, and resume later
-     *     $operationResponse = $accessContextManagerClient->updateServicePerimeter();
+     *     $operationResponse = $accessContextManagerClient->updateServicePerimeter($servicePerimeter, $updateMask);
      *     $operationName = $operationResponse->getName();
      *     // ... do other work
      *     $newOperationResponse = $accessContextManagerClient->resumeOperation($operationName, 'updateServicePerimeter');
@@ -2408,14 +2327,12 @@ class AccessContextManagerGapicClient
      * }
      * ```
      *
-     * @param array $optionalArgs {
+     * @param ServicePerimeter $servicePerimeter Required. The updated `ServicePerimeter`. Syntactic correctness of the
+     *                                           `ServicePerimeter` is a precondition for creation.
+     * @param FieldMask        $updateMask       Required. Mask to control which fields get updated. Must be non-empty.
+     * @param array            $optionalArgs     {
      *     Optional.
      *
-     *     @type ServicePerimeter $servicePerimeter
-     *           Required. The updated `ServicePerimeter`. Syntactic correctness of the
-     *           `ServicePerimeter` is a precondition for creation.
-     *     @type FieldMask $updateMask
-     *           Required. Mask to control which fields get updated. Must be non-empty.
      *     @type RetrySettings|array $retrySettings
      *           Retry settings to use for this call. Can be a {@see RetrySettings} object, or an
      *           associative array of retry settings parameters. See the documentation on
@@ -2426,18 +2343,13 @@ class AccessContextManagerGapicClient
      *
      * @throws ApiException if the remote call fails
      */
-    public function updateServicePerimeter(array $optionalArgs = [])
+    public function updateServicePerimeter($servicePerimeter, $updateMask, array $optionalArgs = [])
     {
         $request = new UpdateServicePerimeterRequest();
         $requestParamHeaders = [];
-        if (isset($optionalArgs['servicePerimeter'])) {
-            $request->setServicePerimeter($optionalArgs['servicePerimeter']);
-        }
-
-        if (isset($optionalArgs['updateMask'])) {
-            $request->setUpdateMask($optionalArgs['updateMask']);
-        }
-
+        $request->setServicePerimeter($servicePerimeter);
+        $request->setUpdateMask($updateMask);
+        $requestParamHeaders['service_perimeter.name'] = $servicePerimeter->getName();
         $requestParams = new RequestParamsHeaderDescriptor($requestParamHeaders);
         $optionalArgs['headers'] = isset($optionalArgs['headers']) ? array_merge($requestParams->getHeader(), $optionalArgs['headers']) : $requestParams->getHeader();
         return $this->startOperationsCall('UpdateServicePerimeter', $optionalArgs, $request, $this->getOperationsClient())->wait();
